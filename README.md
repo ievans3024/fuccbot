@@ -153,7 +153,7 @@ It is recommended to run this in a virtualenv. If you don't know how to do that,
 Once you have your Python 3.5 installation and the discord library in your environment
 (virtual or otherwise,) place `fuccbot` and `config.py` in a desired location. You should
  edit `config.py` to your liking (see "Configuration Options" below) and then you may run
- the bot by typing `python fuccbot/client.py` into your command line interface (don't
+ the bot by typing `python client.py` into your command line interface (don't
  forget to activate your virtualenv if you created one!)
 
 ## How to use the bot
