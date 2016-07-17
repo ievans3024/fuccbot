@@ -38,12 +38,13 @@ A meme may optionally have an unlimited number of aliases associated with it:
 
     from fuccbot.memes import TextMeme
 
-    hello = TextMeme('hello', 'hi', 'h')
+    hello = TextMeme('hello', 'hw')
 
 Aliases can be assigned and added after creation:
 
-    hello.aliases = ['hi']
-    hello.aliases.append('h')
+    hello = TextMeme('hello')
+    hello.aliases = ['greet']
+    hello.aliases.append('hw')
 
 #### How to add a meme variant
 
@@ -76,7 +77,7 @@ function must accept three positional arguments:
     logger = logging.getLogger('discord')
 
     soundboard = SoundMeme('soundboard', 'board')
-    hello = TextMeme('hello')
+    hello = TextMeme('hello', 'hw')
     robot = TTSMeme('robot')
 
 

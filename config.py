@@ -2,7 +2,7 @@ import asyncio
 from fuccbot.memes import TextMeme
 
 # -- Meme definitions --
-hello = TextMeme('hello')
+hello = TextMeme('hello', 'hw')
 
 
 @hello.variant('hello')
