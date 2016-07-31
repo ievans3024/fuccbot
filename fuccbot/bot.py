@@ -35,16 +35,17 @@ class Bot(object):
 Aliases: h
 
 Variants:
-  memes -- !fuccbot help memes -- lists available memes
-  <meme> -- !fuccbot help <meme> -- get more info about a meme
+
+\tmemes -- !fuccbot help memes -- lists available memes
+\t<meme> -- !fuccbot help <meme> -- get more info about a meme
 '''
 
     @property
     def __meme_list(self):
         """A text list of currently registered memes."""
-        text_nodes = ['', 'Dank Maymays:', '']
+        text_nodes = ['\nDank Maymays:', '']
         text_nodes += self.memes.keys()
-        return '\n  '.join(text_nodes)
+        return '\n\t'.join(text_nodes)
 
     async def do_meme(self, message, channel):
         command = message.content

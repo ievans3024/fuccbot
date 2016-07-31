@@ -28,29 +28,32 @@ class Meme(object):
 
     @property
     def help(self):
-        main_text = '!fuccbot ' + self.command
+        main_text = '\n!fuccbot ' + self.command
         type_text = 'Type: {0}'.format(self.type)
         alias_text = ''
         variant_text = ''
         if len(self.variants) > 1:
             main_text += ' [<variant>]'
-            variant_text = 'Variants: \n  '
+            variant_text = 'Variants: \n\n\t'
             variants = []
             for k in self.variants:
                 aliases = [alias for alias, name in self.variant_aliases.items() if name == k]
-                variants.append('{0} (aliases: {1})'.format(k, ', '.join(aliases)))
-            variant_text += '\n  '.join([v for v in variants])
+                if len(aliases):
+                    variants.append('{0} (aliases: {1})'.format(k, ', '.join(aliases)))
+                else:
+                    variants.append(k)
+            variant_text += '\n\t'.join([v for v in variants])
         if len(self.aliases):
             alias_text = 'Aliases: '
             alias_text += ', '.join([a for a in self.aliases])
-        text_nodes = ['', main_text, '', type_text]
+        text_nodes = [main_text, '', type_text]
         if len(alias_text):
             text_nodes.append('')
             text_nodes.append(alias_text)
         if len(variant_text):
             text_nodes.append('')
             text_nodes.append(variant_text)
-        return '\n  '.join(text_nodes)
+        return '\n'.join(text_nodes)
 
     async def do(self, client, message, variant=None):
 
@@ -58,17 +61,12 @@ class Meme(object):
             h = random.choice(list(self.variants.keys()))
             return self.variants[h]
 
-        if variant is None:
-            handler = pick_random()
-        elif self.variants.get(variant) is None:
-            # try aliases
-            if self.variant_aliases.get(variant) is None:
-                handler = pick_random()
-            else:
-                name = self.variant_aliases[variant]
-                handler = self.variants[name]
-        else:
+        if variant in self.variants:
             handler = self.variants[variant]
+        elif variant in self.variant_aliases:
+            handler = self.variants[self.variant_aliases[variant]]
+        else:
+            handler = pick_random()
 
         return await handler(self, client, message)
 
@@ -112,7 +110,7 @@ class SoundMeme(Meme):
             if name not in self.variants:
                 self.variants[name] = f
             for a in aliases:
-                if a not in self.variant_aliases:
+                if a not in self.variants and a not in self.variant_aliases:
                     self.variant_aliases[a] = name
             f.filename = filename
             return f
