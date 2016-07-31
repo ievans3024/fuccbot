@@ -76,13 +76,13 @@ function must accept three positional arguments:
 
     logger = logging.getLogger('discord')
 
-    soundboard = SoundMeme('soundboard', 'board')
+    soundboard = SoundMeme('soundboard', 'board', sound_dir=os.path.join('path', 'to', 'sounds'))
     hello = TextMeme('hello', 'hw')
     robot = TTSMeme('robot')
 
 
     async def play_sound(filename, meme, client, message):
-        file_path = os.path.join(os.path.dirname(__file__), 'sounds', filename)
+        file_path = os.path.join(meme.sound_dir, filename)
         voice_channel = message.author.voice_channel
         if voice_channel is not None:
             voice = await client.join_voice_channel(voice_channel)
@@ -97,21 +97,19 @@ function must accept three positional arguments:
                 await voice.disconnect()
 
 
-    # May decorate the same function multiple times to alias variants
-    @soundboard.variant('sad')
-    @soundboard.variant('sadtrombone')
+    # Variants may have aliases as well
+    # SoundMemes may optionally have a filename attributed to them, can be accessed using variant_func.filename
+    @soundboard.variant('sadtrombone', 'sad', filename='sadtrombone.wav')
     async def soundboard_sad(meme, client, message):
         return await play_sound('sadtrombone.wav', meme, client, message)
 
 
-    @soundboard.variant('fail')
-    @soundboard.variant('failtuba')
+    @soundboard.variant('failtuba', 'fail', filename='failtuba.wav')
     async def soundboard_fail(meme, client, message):
         return await play_sound('failtuba.wav', meme, client, message)
 
 
-    @soundboard.variant('rim')
-    @soundboard.variant('rimshot')
+    @soundboard.variant('rimshot', 'rim', filename='rimshot.wav')
     async def soundboard_rim(meme, client, message):
         return await play_sound('rimshot.wav', meme, client, message)
 

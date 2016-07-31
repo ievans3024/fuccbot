@@ -69,7 +69,13 @@ Variants:
                 if len(meme.variants) > 1:
                     if len(parts) > 1:
                         if parts[1] in meme.variants:
-                            return await meme.do(self.client, message, variant=parts[1])
+                            v = parts[1]
+                        elif parts[1] in meme.variant_aliases:
+                            v = meme.variant_aliases[parts[1]]
+                        else:
+                            v = None
+                        if v is not None:
+                            return await meme.do(self.client, message, variant=v)
                 return await meme.do(self.client, message)
         else:
             return await self.client.send_message(self.quick_help, channel)
