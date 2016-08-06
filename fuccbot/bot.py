@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import random
 
 __author__ = 'ievans3024'
 
@@ -32,18 +33,30 @@ class Bot(object):
         return '''
 !fuccbot help
 
-Aliases: h
+\tAliases: h
 
-Variants:
+\tVariants:
 
-\tmemes -- !fuccbot help memes -- lists available memes
-\t<meme> -- !fuccbot help <meme> -- get more info about a meme
+\t\tmemes -- !fuccbot help memes -- lists available memes
+\t\t<meme> -- !fuccbot help <meme> -- get more info about a meme
+'''
+
+    @property
+    def __random_help(self):
+        return '''
+!fuccbot random
+
+\tAliases: rand
+
+\tVariants: None
+
+\t!fuccbot random -- do a random meme
 '''
 
     @property
     def __meme_list(self):
         """A text list of currently registered memes."""
-        text_nodes = ['\nDank Maymays:', '']
+        text_nodes = ['\nDank Maymays:', '', 'random']
         text_nodes += self.memes.keys()
         return '\n\t'.join(text_nodes)
 
@@ -59,12 +72,16 @@ Variants:
                     # print meme help
                     if parts[1] == 'memes':
                         help_text = self.__meme_list
+                    elif parts[1] in {'random', 'rand'}:
+                        help_text = self.__random_help
                     elif parts[1] in self.__command_map:
                         meme = self.__command_map[parts[1]]
                         help_text = self.memes.get(meme).help
                     else:
                         help_text = self.__general_help
                 await self.client.send_message(channel, help_text)
+            elif parts[0] in {'random', 'rand'}:
+                meme = self.memes[random.choice(list(self.memes.keys()))]
             elif parts[0] in self.__command_map:
                 meme = self.memes.get(self.__command_map[parts[0]])
                 if len(meme.variants) > 1:
@@ -84,7 +101,7 @@ Variants:
     def register_meme(self, meme):
 
         # compile a list of current commands and aliases
-        current_commands = ['help', 'h']
+        current_commands = ['help', 'h', 'random', 'rand']
         added_aliases = []
         skipped_aliases = []
         for k, v in self.memes.items():
