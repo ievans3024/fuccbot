@@ -96,7 +96,7 @@ class Bot(object):
                             return await meme.do(self.client, message, variant=v)
                 return await meme.do(self.client, message)
         else:
-            return await self.client.send_message(self.quick_help, channel)
+            return await self.client.send_message(channel, self.quick_help)
 
     def register_meme(self, meme):
 
