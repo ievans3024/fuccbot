@@ -63,7 +63,7 @@ class Bot(object):
     async def do_meme(self, message, channel):
         command = message.content
         parts = command.split(' ')[1:]
-        if len(parts):
+        if len(parts) > 0:
             if parts[0] in {'help', 'h'}:
                 # print help text in calling channel
                 if len(parts) == 1:
@@ -96,7 +96,7 @@ class Bot(object):
                             return await meme.do(self.client, message, variant=v)
                 return await meme.do(self.client, message)
         else:
-            return await self.client.send_message(channel, self.quick_help)
+            return await self.client.send_message(channel, self.__general_help)
 
     def register_meme(self, meme):
 

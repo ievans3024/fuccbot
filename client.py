@@ -40,7 +40,8 @@ async def on_message(message):
         member = message.author
         if member.id != bot.client.user.id:
             if any([r for r in member.roles if r in bot.roles]):
-                if message.content.startswith('!fuccbot ') or message.content.startswith('!fb '):
+                message_parts = message.content.split(' ')
+                if message_parts[0] in {'!fuccbot', '!fb'}:
                     await bot.do_meme(message, message.channel)
 
 if __name__ == '__main__':
