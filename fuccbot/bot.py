@@ -94,7 +94,15 @@ class Bot(object):
                             v = None
                         if v is not None:
                             return await meme.do(self.client, message, variant=v)
+                        else:
+                            msg = 'Try again, meat popsicle:\n'
+                            help_text = meme.help
+                            return await self.client.send_message(channel, msg + help_text)
                 return await meme.do(self.client, message)
+            else:
+                msg = 'Try again, meat popsicle:\n'
+                help_text = self.__general_help
+                return await self.client.send_message(channel, msg + help_text)
         else:
             return await self.client.send_message(channel, self.__general_help)
 
