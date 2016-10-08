@@ -36,8 +36,8 @@ class Meme(object):
             main_text += ' [<variant>]'
             variant_text = 'Variants: \n\n\t'
             variants = []
-            for k in self.variants:
-                aliases = [alias for alias, name in self.variant_aliases.items() if name == k]
+            for k in sorted(self.variants):
+                aliases = [alias for alias, name in sorted(self.variant_aliases.items()) if name == k]
                 if len(aliases):
                     variants.append('{0} (aliases: {1})'.format(k, ', '.join(aliases)))
                 else:

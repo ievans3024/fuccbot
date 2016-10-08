@@ -56,8 +56,11 @@ class Bot(object):
     @property
     def __meme_list(self):
         """A text list of currently registered memes."""
-        text_nodes = ['\nDank Maymays:', '', 'random']
-        text_nodes += self.memes.keys()
+        text_nodes = ['\nDank Maymays:', '']
+        memes = list(self.memes.keys())
+        memes.append('random')
+        memes = sorted(memes)
+        text_nodes += memes
         return '\n\t'.join(text_nodes)
 
     async def do_meme(self, message, channel):
